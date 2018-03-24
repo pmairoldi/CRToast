@@ -232,6 +232,8 @@ NSString *const kCRToastAutorotateKey                       = @"kCRToastAutorota
 NSString *const kCRToastIdentifierKey                       = @"kCRToastIdentifierKey";
 NSString *const kCRToastCaptureDefaultWindowKey             = @"kCRToastCaptureDefaultWindowKey";
 
+NSString *const kCRToastAllowDuplicatesKey                  = @"kCRToastAllowDuplicatesKey";
+
 #pragma mark - Option Defaults
 
 static CRToastType                   kCRNotificationTypeDefault             = CRToastTypeStatusBar;
@@ -287,6 +289,8 @@ static BOOL                          kCRForceUserInteractionDefault         = NO
 static BOOL                          kCRAutoRotateDefault                   = YES;
 
 static BOOL                          kCRCaptureDefaultWindowDefault         = YES;
+
+static BOOL                          kCRAllowDuplicatesDefault              = YES;
 
 static NSDictionary *                kCRToastKeyClassMap                    = nil;
 
@@ -363,7 +367,9 @@ static NSDictionary *                kCRToastKeyClassMap                    = ni
                                 
                                 kCRToastAutorotateKey                       : NSStringFromClass([@(kCRAutoRotateDefault) class]),
                                 
-                                kCRToastCaptureDefaultWindowKey             : NSStringFromClass([@(kCRCaptureDefaultWindowDefault) class])
+                                kCRToastCaptureDefaultWindowKey             : NSStringFromClass([@(kCRCaptureDefaultWindowDefault) class]),
+                                
+                                kCRToastAllowDuplicatesKey                  : NSStringFromClass([@(kCRAllowDuplicatesDefault) class])
                                 };
     }
 }
@@ -436,6 +442,8 @@ static NSDictionary *                kCRToastKeyClassMap                    = ni
     if (defaultOptions[kCRToastAutorotateKey])                      kCRAutoRotateDefault                    = [defaultOptions[kCRToastAutorotateKey] boolValue];
 
     if (defaultOptions[kCRToastCaptureDefaultWindowKey])            kCRCaptureDefaultWindowDefault          = [defaultOptions[kCRToastCaptureDefaultWindowKey] boolValue];
+    
+    if (defaultOptions[kCRToastAllowDuplicatesKey])                 kCRAllowDuplicatesDefault               = [defaultOptions[kCRToastAllowDuplicatesKey] boolValue];
 }
 
 #pragma mark - Notification View Helpers
@@ -740,6 +748,10 @@ static NSDictionary *                kCRToastKeyClassMap                    = ni
 
 - (BOOL)snapshotWindow {
     return (_options[kCRToastCaptureDefaultWindowKey] ? [_options[kCRToastCaptureDefaultWindowKey] boolValue] : kCRCaptureDefaultWindowDefault);
+}
+
+- (BOOL)allowDuplicates {
+    return (_options[kCRToastAllowDuplicatesKey] ? [_options[kCRToastAllowDuplicatesKey] boolValue] : kCRAllowDuplicatesDefault);
 }
 
 BOOL CRToastAnimationDirectionIsVertical(CRToastAnimationDirection animationDirection) {

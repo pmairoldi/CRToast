@@ -68,6 +68,26 @@ NSMutableDictionary * __TestToastOptionsDictionary(void) {
 
 }
 
+- (void)testShowDuplicates {
+    
+    for (NSString *str in @[@"1", @"1", @"1", @"2", @"2"]) {
+        NSMutableDictionary *options = __TestToastOptionsDictionary();
+        options[kCRToastTimeIntervalKey] = @15;
+        options[kCRToastIdentifierKey] = str;
+        options[kCRToastAllowDuplicatesKey] = @(NO);
+        [CRToastManager showNotificationWithOptions:options completionBlock:nil];
+    }
+    
+    NSArray *identifiers = [CRToastManager notificationIdentifiersInQueue];
+    
+    XCTAssertTrue(identifiers.count == 2, @"identifiers should contain 2 items. Instead contains %lu", (long)identifiers.count);
+    
+    XCTAssertTrue([identifiers containsObject:@"1"], @"identifiers should contain an identifier '1'.");
+
+    XCTAssertTrue([identifiers containsObject:@"2"], @"identifiers should not contain an identifier '2'.");
+    
+}
+
 #pragma mark - Setup
 - (void)setUp {
     [super setUp];

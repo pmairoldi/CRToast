@@ -365,6 +365,11 @@ extern NSString *const kCRToastIdentifierKey;
  */
 extern NSString *const kCRToastCaptureDefaultWindowKey;
 
+/**
+ A BOOL setting whether the CRToast's should show the same notifiction again. Expects type `BOOL` defaults to `YES`
+ */
+extern NSString *const kCRToastAllowDuplicatesKey;
+
 #pragma mark - CRToast Interface
 @interface CRToast : NSObject <UIGestureRecognizerDelegate>
 
@@ -442,6 +447,7 @@ extern NSString *const kCRToastCaptureDefaultWindowKey;
 @property (nonatomic, readonly) CRToastAccessoryViewAlignment activityViewAlignment;
 @property (nonatomic, readonly) BOOL showActivityIndicator;
 @property (nonatomic, readonly) BOOL forceUserInteraction;
+@property (nonatomic, readonly) BOOL allowDuplicates;
 
 @property (nonatomic, readonly) CGVector inGravityDirection;
 @property (nonatomic, readonly) CGVector outGravityDirection;

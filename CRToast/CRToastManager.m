@@ -255,9 +255,22 @@ CRToastAnimationStepBlock CRToastOutwardAnimationsSetupBlock(CRToastManager *wea
 
 - (void)addNotification:(CRToast*)notification {
     BOOL showingNotification = self.showingNotification;
-    [_notifications addObject:notification];
-    if (!showingNotification) {
-        [self displayNotification:notification];
+    BOOL allowDuplicates = notification.allowDuplicates;
+    BOOL shouldShowNotification = true;
+    
+    if (!allowDuplicates) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(CRToast*  _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+            return [evaluatedObject.options isEqualToDictionary: notification.options];
+        }];
+        
+        shouldShowNotification = [_notifications filteredArrayUsingPredicate: predicate].count == 0;
+    }
+    
+    if (shouldShowNotification) {
+        [_notifications addObject:notification];
+        if (!showingNotification) {
+            [self displayNotification:notification];
+        }
     }
 }
 
